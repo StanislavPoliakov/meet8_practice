@@ -1,66 +1,45 @@
 package home.stanislavpoliakov.meet8_practice;
 
-import android.app.Fragment;
-import android.app.LoaderManager;
-import android.content.AsyncTaskLoader;
-import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
-
-import java.util.concurrent.ExecutionException;
 
 public class MainActivity extends AppCompatActivity implements android.support.v4.app.LoaderManager.LoaderCallbacks<Integer> {
     private FragmentManager fragmentManager = getSupportFragmentManager();
     private final static int LOADER_ID = 1001;
     private Loader mLoader;
-    //private MyAsyncTask myAsyncTask = new MyAsyncTask();
     private static final String TAG = "meet8_logs";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        //Load
+
+        initLoader();
         initFragments();
     }
 
-    private void initFragments() {
+    /**
+     * Инициализиурем Loader
+     */
+    private void initLoader() {
         mLoader = getSupportLoaderManager().initLoader(LOADER_ID, null, this);
         mLoader.forceLoad();
+    }
 
-        Bundle defaultBundle = new Bundle();
-        defaultBundle.putInt("Color", 0);
-
+    /**
+     * Инициализиурем фрагменты программно
+     */
+    private void initFragments() {
         fragmentManager.beginTransaction()
                 .add(R.id.frameLayout1, Fragment1.newInstance(), "fragment1")
                 .add(R.id.frameLayout2, Fragment2.newInstance(), "fragment2")
                 .add(R.id.frameLayout3, Fragment3.newInstance(), "fragment3")
                 .commitNow();
-        //myAsyncTask.execute();
-        //publishRandomNumber();
     }
-
-    /*private void publishRandomNumber() {
-       // myAsyncTask.execute();
-        //myAsyncTask = new MyAsyncTask();
-        //myAsyncTask.execute();
-        Fragment2 fragment2 = (Fragment2) fragmentManager.findFragmentByTag("fragment2");
-        try {
-            Log.d(TAG, "publishRandomNumber: number = " + fragment2);
-            fragment2.setNumber(myAsyncTask.get());
-            Log.d(TAG, "publishRandomNumber: post");
-        } catch (InterruptedException ex) {
-            ex.printStackTrace();
-        } catch (ExecutionException ex) {
-            ex.printStackTrace();
-        }
-        //publishRandomNumber();
-    }*/
 
     @NonNull
     @Override
@@ -70,12 +49,17 @@ public class MainActivity extends AppCompatActivity implements android.support.v
         return mLoader;
     }
 
+    /**
+     * Метод результата работы Loader'-а. Получаем данные, достаем фрагмент по TAG'-у,
+     * вызваем метод фрагмента для изменения цвета
+     * @param loader
+     * @param color
+     */
     @Override
     public void onLoadFinished(@NonNull Loader<Integer> loader, Integer color) {
         Fragment1 fragment1 = (Fragment1) fragmentManager.findFragmentByTag("fragment1");
         fragment1.setColor(color);
-        mLoader.forceLoad();
-        //Log.d(TAG, "onLoadFinished: bundle = " + fragment1.getArguments());
+        mLoader.forceLoad(); // Зацикливаем логику выбора случайного цвета
     }
 
     @Override

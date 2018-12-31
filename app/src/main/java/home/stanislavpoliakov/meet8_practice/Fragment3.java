@@ -25,22 +25,28 @@ public class Fragment3 extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        //createIdList();
         return inflater.inflate(R.layout.fragment3, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        RecyclerView recyclerView = view.findViewById(R.id.recyclerView);
+
+        // Инициализируем Handler, который будет запускать отдельный Runnable поток
         handler = new Handler();
         handler.post(createIdList);
+
+        // Инициализируем RecyclerView
+        RecyclerView recyclerView = view.findViewById(R.id.recyclerView);
         MyAdapter myAdapter = new MyAdapter(idList);
         recyclerView.setAdapter(myAdapter);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this.getContext(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
     }
 
+    /**
+     * Описываем поток исполнения логики заполнения списка используемых картинок для RecyclerView.
+     * Запуск через handler.post
+     */
     private Runnable createIdList = new Runnable() {
         private int randomResourceId;
 

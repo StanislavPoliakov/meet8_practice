@@ -9,12 +9,19 @@ import android.util.Log;
 
 public class MyLoader extends AsyncTaskLoader<Integer>{
     private static final String TAG = "meet8_logs";
+
+    // Описываем массив цветовых значений. Будем выбирать случайный индекс и передавать элемент массива
+    // в качестве результата работы логики Loader'-а
     private int[] colors = {Color.BLACK, Color.GRAY, Color.RED, Color.GREEN, Color.BLUE, Color.YELLOW, Color.MAGENTA, Color.CYAN};
 
     public MyLoader(@NonNull Context context) {
         super(context);
     }
 
+    /**
+     * Метод работы Loader'-а. Выполнение в отдельном потоке
+     * @return
+     */
     @Nullable
     @Override
     public Integer loadInBackground() {

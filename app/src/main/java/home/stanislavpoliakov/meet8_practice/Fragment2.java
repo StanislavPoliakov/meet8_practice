@@ -25,20 +25,33 @@ public class Fragment2 extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment2, container, false);
     }
 
+    /**
+     * После отрисовки View инициализируем текстовое поле, инициализируем AsyncTask и запускаем
+     * на исполнение
+     * @param view
+     * @param savedInstanceState
+     */
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         this.textView = view.findViewById(R.id.textView2);
-        Log.d(TAG, "onViewCreated: ");
         MyAsyncTask myAsyncTask = new MyAsyncTask();
         myAsyncTask.execute();
     }
 
+    /**
+     * Логику асинхронной задачи описываем внутренним классом для легкого доступа к полям
+     * класса-обертки. То есть для отрисовки изменений в UI-компоненте textView второго фрагмента
+     */
     private class MyAsyncTask extends AsyncTask<Void, Integer, Integer> {
 
+        /**
+         * Метод обработки логики AsyncTask. Работа проводится в отдельном потоке
+         * @param voids
+         * @return
+         */
         @Override
         protected Integer doInBackground(Void... voids) {
             int randomNumber = (int) Math.round(Math.random() * 100);
@@ -48,10 +61,14 @@ public class Fragment2 extends Fragment {
             } catch (InterruptedException ex) {
                 ex.printStackTrace();
             }
-            doInBackground();
+            doInBackground(); // Зацикливаем этот Thread
             return null;
         }
 
+        /**
+         * Метод, через который мы отрисовываем textView. Работа проводится в UI-потоке
+         * @param values
+         */
         @Override
         protected void onProgressUpdate(Integer... values) {
             Fragment2.this.textView.setText(String.valueOf(values[0]));
