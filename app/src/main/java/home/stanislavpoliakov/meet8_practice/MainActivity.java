@@ -12,10 +12,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 
+import java.util.concurrent.ExecutionException;
+
 public class MainActivity extends AppCompatActivity implements android.support.v4.app.LoaderManager.LoaderCallbacks<Integer> {
     private FragmentManager fragmentManager = getSupportFragmentManager();
     private final static int LOADER_ID = 1001;
     private Loader mLoader;
+    //private MyAsyncTask myAsyncTask = new MyAsyncTask();
     private static final String TAG = "meet8_logs";
 
     @Override
@@ -37,8 +40,27 @@ public class MainActivity extends AppCompatActivity implements android.support.v
                 .add(R.id.frameLayout1, Fragment1.newInstance(), "fragment1")
                 .add(R.id.frameLayout2, Fragment2.newInstance(), "fragment2")
                 .add(R.id.frameLayout3, Fragment3.newInstance(), "fragment3")
-                .commit();
+                .commitNow();
+        //myAsyncTask.execute();
+        //publishRandomNumber();
     }
+
+    /*private void publishRandomNumber() {
+       // myAsyncTask.execute();
+        //myAsyncTask = new MyAsyncTask();
+        //myAsyncTask.execute();
+        Fragment2 fragment2 = (Fragment2) fragmentManager.findFragmentByTag("fragment2");
+        try {
+            Log.d(TAG, "publishRandomNumber: number = " + fragment2);
+            fragment2.setNumber(myAsyncTask.get());
+            Log.d(TAG, "publishRandomNumber: post");
+        } catch (InterruptedException ex) {
+            ex.printStackTrace();
+        } catch (ExecutionException ex) {
+            ex.printStackTrace();
+        }
+        //publishRandomNumber();
+    }*/
 
     @NonNull
     @Override

@@ -18,7 +18,7 @@ public class MyLoader extends AsyncTaskLoader<Integer>{
     @Nullable
     @Override
     public Integer loadInBackground() {
-        int colorIndex = (int) Math.round(Math.random() * 8);
+        int colorIndex = (int) Math.round(Math.random() * 7);
         try {
             Thread.sleep(1000);
         } catch (InterruptedException ex) {

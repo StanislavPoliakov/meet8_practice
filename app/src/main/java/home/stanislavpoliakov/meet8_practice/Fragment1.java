@@ -37,6 +37,6 @@ public class Fragment1 extends Fragment {
 
     public void setColor(Integer color) {
         this.currentView.setBackgroundColor(color);
-        Log.d(TAG, "setColor: color = " + color);
+        //Log.d(TAG, "setColor: color = " + color);
     }
 }
