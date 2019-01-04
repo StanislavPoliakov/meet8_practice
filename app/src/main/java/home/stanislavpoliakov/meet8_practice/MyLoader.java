@@ -5,9 +5,8 @@ import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.AsyncTaskLoader;
-import android.util.Log;
 
-public class MyLoader extends AsyncTaskLoader<Integer>{
+public class MyLoader extends AsyncTaskLoader<Integer> {
     private static final String TAG = "meet8_logs";
 
     // Описываем массив цветовых значений. Будем выбирать случайный индекс и передавать элемент массива
